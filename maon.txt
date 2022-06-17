@@ -1,0 +1,216 @@
+package main
+
+import "golangpro/library"
+import "fmt"
+import "strings"
+import "math"
+
+
+func main() {
+	var firstName string = "joohn"
+	lastName, _:= "wick", "embo"
+	nomer := 8
+	var exist bool = true
+	var left = true
+	right := false
+	//point := 9
+	fmt.Println("Exist? %t \n", exist)
+	fmt.Println("Hello ", firstName, lastName, "nomer :", nomer * 4)
+	fmt.Println("left || right \n", left || right)
+
+	var names [4]string
+	names [0] = "putri"
+	names [1] = "bahjah"
+	names [2] = "najmina"
+	names [3] = "farihul"
+
+	 x := 100
+	if x == 50 {
+		fmt.Println("Germany")
+	} else if x == 100 {
+		fmt.Println("Japan")
+	} else {
+		fmt.Println("Canada")
+	}
+
+	for i := 0; i < 5; i++ {
+		fmt.Println("Cetak:  ", i)
+	}
+
+	for i := 0; i < len(names); i++ {
+		fmt.Println("urutan array", names[i])
+	}
+
+	for _, name := range names {
+		fmt.Println(name)
+	}
+
+	var fruits = []string{"apple", "grape", "banana", "melon", "semangka"}
+	var newFruits = fruits[0:3]
+	var cFruits = append(fruits, "Jeruk", "Jambu")
+
+	fmt.Println(newFruits) // ["apple", "grape"]
+
+	fmt.Println(len(fruits))
+
+	fmt.Println(cap(fruits))
+
+	fmt.Println(len(newFruits))
+	fmt.Println(cap(newFruits))
+
+	fmt.Println(cFruits)
+
+	var chickens = []map[string]string{
+	    map[string]string{"name": "chicken blue",   "gender": "male"},
+	    map[string]string{"name": "chicken red",    "gender": "male"},
+	    map[string]string{"name": "chicken yellow", "gender": "female"},
+	}
+
+	for _, chicken := range chickens {
+    	fmt.Println(chicken["gender"], chicken["name"])
+	}
+
+   	 var jeneng = []string{"John", "Wick"}
+     primtMessage("halo", jeneng)
+     fmt.Println("kalikan ", getJumlah(3, 6))
+     fmt.Println("jumlahkan ", getJumlah(5, 6))
+     fmt.Println("kurangkan ", getJumlah(10, 6))
+
+     fmt.Println("Gabungkan String", gabungString("hello", "world dunia"))
+
+     var jumlah, kali = multupleReturn(3, 4)
+     fmt.Printf("jumlah\t\t: %d \n", jumlah)
+     fmt.Printf("kali\t: %d \n", kali)
+
+     //Variadic
+     var avg = calculate(2, 4, 3, 5, 4, 3, 3, 5, 5, 3)
+     var msg = fmt.Sprintf("Rata-rata : %.2f", avg)
+     fmt.Println(msg)
+     //var jumlah,kali = multupleReturn(3,4)
+     //fm.Println("ini jumlah "jumlah)
+     //fmt.Println("ini kali " kali)
+
+     //Closure  Variable
+     var getMinMax = func(n []int) (int, int) {
+        var min, max int
+        for i, e := range n {
+            switch {
+            case i == 0:
+                max, min = e, e
+            case e > max:
+                max = e
+            case e < min:
+                min = e
+            }
+        }
+        return min, max
+    }
+
+    var numbers = []int{2, 3, 4, 3, 4, 2, 3}
+    var min, max = getMinMax(numbers)
+    fmt.Printf("data : %v\nmin  : %v\nmax  : %v\n", numbers, min, max)
+
+    var getJumlahSaja = func(a, b int) int {
+    	return a + b
+    }
+
+    total := getJumlahSaja(3,10)
+    fmt.Println("hasil jumlah dari function Clouser", total)
+
+    library.SayHello("ethan")
+    
+	//library.introduce("ethan")
+
+	var bangunDatar hitung
+
+    bangunDatar = persegi{10.0}
+    fmt.Println("===== persegi")
+    fmt.Println("luas      :", bangunDatar.luas())
+    fmt.Println("keliling  :", bangunDatar.keliling())
+
+    bangunDatar = lingkaran{14.0}
+    fmt.Println("===== lingkaran")
+    fmt.Println("luas      :", bangunDatar.luas())
+    fmt.Println("keliling  :", bangunDatar.keliling())
+    fmt.Println("jari-jari :", bangunDatar.(lingkaran).jariJari())
+
+
+}
+
+type hitung interface {
+	luas() float64
+	keliling() float64
+}
+
+type lingkaran struct {
+	diameter float64
+}
+
+func (l lingkaran) jariJari() float64 {
+    return l.diameter / 2
+}
+
+func (l lingkaran) luas() float64 {
+    return math.Pi * math.Pow(l.jariJari(), 2)
+}
+
+func (l lingkaran) keliling() float64 {
+    return math.Pi * l.diameter
+}
+
+
+type persegi struct {
+    sisi float64
+}
+
+func (p persegi) luas() float64 {
+    return math.Pow(p.sisi, 2)
+}
+
+func (p persegi) keliling() float64 {
+    return p.sisi * 4
+}
+
+
+func getJumlah(x , y int) int {
+
+	if x <= 3 {
+		return x * y
+	} else if x > 3 && x <= 9 {
+		return x + y
+	} else {
+		return x - y
+	}
+
+	//return value
+}
+
+func multupleReturn (x, y int) (int, int){
+	jumlah := x + y
+	kali  := x * y
+
+	return jumlah, kali
+
+}
+
+func primtMessage(message string, arr []string) {
+	var nameString = strings.Join(arr, " ")
+    fmt.Println(message, nameString)
+}
+
+func gabungString(message, message2 string) string {
+	return (message +" "+ message2)
+}
+//Variadic
+func calculate(numbers ...int) float64 {
+    var total int = 0
+    for _, number := range numbers {
+        total += number
+    }
+
+    var avg = float64(total) / float64(len(numbers))
+    return avg
+}
+
+
+
